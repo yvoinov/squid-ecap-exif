@@ -1,0 +1,111 @@
+Building adapter
+================
+
+#### Dependencies (for PoDoFo)
+## Fontconfig
+## Freetype2
+##
+## On Solaris:
+## CSWlibfreetype-dev
+## CSWlibfreetype6
+## CSWfontconfig-dev
+## CSWfontconfig
+##
+## Debian dependencies:
+## apt-get install exiv2 libtag1v5 libtag1-dev libzip4 libzip-dev libpodofo0.9.6 libpodofo-dev
+## Note: Always use as fresh dependencies packages as possible.
+
+----------------------------------------------------------------------------------------------------
+*** Built libtag
+
+## 64 bit
+mkdir build
+cd build
+CC=/opt/csw/bin/gcc CXXFLAGS=-m64 cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=TRUE ..
+
+## 32 bit
+mkdir build
+cd build
+CC=/opt/csw/bin/gcc CXXFLAGS=-m32 cmake -DCMAKE_INSTALL_PREFIX=/usr/local -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS:BOOL=TRUE ..
+
+make -j8
+make install
+
+----------------------------------------------------------------------------------------------------
+*** Build libzip
+
+## 64 bit
+mkdir build
+cd build
+CC=/opt/csw/bin/gcc CFLAGS=-m64 cmake ..
+
+## 32 bit
+mkdir build
+cd build
+CC=/opt/csw/bin/gcc CFLAGS=-m32 cmake ..
+
+make -j8
+make install
+
+----------------------------------------------------------------------------------------------------
+*** Build exiv
+
+## Note: Use DevStudio on Solaris
+
+## 64 bit GCC
+mkdir build
+cd build
+CXX=/opt/csw/bin/g++ CFLAGS=-m64 CXXFLAGS=-m64 LDFLAGS='-lsocket -lnsl' cmake -DEXIV2_BUILD_SAMPLES:BOOL=FALSE ..
+
+## 32 bit GCC
+mkdir build
+cd build
+CXX=/opt/csw/bin/g++ CFLAGS=-m32 CXXFLAGS=-m32 LDFLAGS='-lsocket -lnsl' cmake -DEXIV2_BUILD_SAMPLES:BOOL=FALSE ..
+
+## 64 bit (DevStudio on Solaris)
+mkdir build
+cd build
+CFLAGS=-m64 CXXFLAGS=-m64 LDFLAGS='-lsocket -lnsl' cmake -DEXIV2_BUILD_SAMPLES:BOOL=FALSE ..
+
+## 32 bit (DevStudio on Solaris)
+mkdir build
+cd build
+CFLAGS=-m32 CXXFLAGS=-m32 LDFLAGS='-lsocket -lnsl' cmake -DEXIV2_BUILD_SAMPLES:BOOL=FALSE ..
+
+make -j8
+make install
+
+----------------------------------------------------------------------------------------------------
+*** Build PoDoFo
+
+## 64 bit
+## Note: FREETYPE_INCLUDE_DIR and FREETYPE_LIBRARY depends from your system. Adjust it.
+mkdir podofo-build
+cd podofo-build
+CC=/opt/csw/bin/gcc CFLAGS=-m64 CXXFLAGS=-m64 cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="/usr/local" \
+						-DCMAKE_BUILD_TYPE=RELEASE \
+						-DFREETYPE_LIBRARY="/opt/csw/lib" \
+						-DFREETYPE_INCLUDE_DIR="/opt/csw/include/freetype2" \
+ 						-DPODOFO_BUILD_LIB_ONLY:BOOL=TRUE \
+						-DPODOFO_BUILD_SHARED:BOOL=TRUE \
+						-DPODOFO_BUILD_STATIC:BOOL=TRUE ..
+make -j8
+make install
+
+----------------------------------------------------------------------------------------------------
+*** Build ecap-exif
+
+## Note: /opt/csw is on Solaris. Adjust it.
+## Note: Optimization level -O3 enabled by default.
+
+./configure 'CXXFLAGS=-m64 -mtune=native' 'LDFLAGS=-L/usr/local/lib' 'CPPFLAGS=-I/usr/local/include/podofo -I/usr/local/include -I/opt/csw/include'
+
+or 
+
+./configure 'CXXFLAGS=-m32 -mtune=native' 'LDFLAGS=-L/usr/local/lib' 'CPPFLAGS=-I/usr/local/include/podofo -I/usr/local/include -I/opt/csw/include'
+
+make -j8
+make install-strip
+
+Note: Adapter requires libecap 1.0.0 or above.
+      Configuration checks libecap version; make sure your pkg-config see libecap.pc, set/adjust PKG_CONFIG_PATH otherwise.

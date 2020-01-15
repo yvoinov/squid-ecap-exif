@@ -1,0 +1,32 @@
+07-18-2019
+==========
+* FIX: configure.in renamed to configure.ac
+* FIX: Got rid PKG_CHECK_MODULES
+* FIX: Fixed code for latest libecap
+* FIX: Added missed unistd.h
+
+08-03-2019
+==========
+* IMPROVEMENT: Added ltalloc support.
+* IMPROVEMENT: Replaced PoDoFo function check to library check.
+* IMPROVEMENT: Added default -O3 optimization flag.
+
+08-05-2019
+==========
+* FIX: Omit stopVb() definition.
+
+08-07-2019
+==========
+* IMPROVEMENT: Some micro optimizations.
+* IMPROVEMENT: Exclude taglib include full path from configure call.
+* IMPROVEMENT: Define service name.
+* FIX: Minor fixes.
+
+08-22-2019
+==========
+* IMPROVEMENT: Added libecap version check. In some cases require to set/modify PKG_CONFIG_PATH.
+* IMPROVEMENT: Added workaround to detect egrep on some platforms.
+
+01-15-2020
+==========
+* IMPROVEMENT: Refactoring.
