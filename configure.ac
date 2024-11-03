@@ -8,7 +8,7 @@
 m4_define([VERSION_MAJOR],[0])
 m4_define([VERSION_MINOR],[5])
 m4_define([VERSION_MICRO],[4])
-AC_INIT(eCAP EXIF metadata filter, m4_defn([VERSION_MAJOR]).m4_defn([VERSION_MINOR]).m4_defn([VERSION_MICRO]), [], squid-ecap-exif)
+AC_INIT(squid-ecap-exif, m4_defn([VERSION_MAJOR]).m4_defn([VERSION_MINOR]).m4_defn([VERSION_MICRO]), [], squid-ecap-exif)
 
 AC_DEFINE([ECAP_SERVICE_NAME], ["ecap://www.thecacheworks.com/exif-filter"], [service name])
 
@@ -66,9 +66,9 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 
-AC_PROG_EGREP
-if test "x$ac_cv_path_EGREP" = "xno"; then
-  AC_MSG_ERROR([egrep was not found; install it first])
+AC_PROG_GREP
+if test "x$ac_cv_path_GREP" = "xno"; then
+  AC_MSG_ERROR([grep was not found; install it first])
 fi
 
 dnl Check STL
@@ -77,14 +77,14 @@ if test "x$ax_cv_cxx_have_stl" = "xno"; then
 fi
 
 dnl If the user did not specify a C++ version.
-user_cxx=`echo "$PRESET_CXXFLAGS" | $EGREP -o -E "\-std="`
+user_cxx=`echo "$PRESET_CXXFLAGS" | $GREP -o -E "\\-std="`
 if test "x$user_cxx" = "x"; then
   dnl Check for C++11 compiler support
   AX_CXX_COMPILE_STDCXX(11, [noext], [mandatory])
 fi
 
 dnl If the user did not specify optimization level
-user_opt=`echo "$PRESET_CXXFLAGS" | $EGREP -o -E "\-O"`
+user_opt=`echo "$PRESET_CXXFLAGS" | $GREP -o -E "\\-O"`
 if test "x$user_opt" = "x"; then
   dnl Set default optimization level
   CXXFLAGS="$CXXFLAGS -O3"
