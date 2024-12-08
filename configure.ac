@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 #  @configure_input@
 #
-#  Configuration scipt for eCAP EXIF metadata filter
+#  Configuration script for eCAP EXIF metadata filter
 #
 # Process this file with autoconf to produce a configure script.
 
